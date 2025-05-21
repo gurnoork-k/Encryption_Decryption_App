@@ -1,29 +1,31 @@
 def caeser_encrypt(text, s):
     result = ""
 
-    for i in range(len(text)):
-        char = text[i]
-
-        if(char.isupper()):
+    for char in text:
+        if char.isupper():
             result += chr((ord(char) - 65 + s) % 26 + 65)
-        if(char.islower()):
-            result += chr((ord(char) -97 + s) % 26 + 97)
-        
+        elif char.islower():
+            result += chr((ord(char) - 97 + s) % 26 + 97)
+        else:
+            result += char  # keep non-alphabetic characters as is
     return result
 
-def caeser_decrypt(text, shift):
-    return caeser_encrypt(text, -shift)
+def caeser_decrypt(text, s):
+    return caeser_encrypt(text, -s)
+if __name__ == "__main__":
+    choice = input("Do you want to encrypt or decrypt? (E/D): ").strip().lower()
 
-choice = str(input("do you want to encyrpt or decrypt? (E/D)"))
-if(choice == "D"):
-    text = str(input("enter string you want to encyrpt: "))
-    s = int(input("enter shift value: "))
-    print("the text: " + text)
-    print("the shift: " + str(s))   
-    print("cipher text: " + caeser_decrypt(text, s))
-else:
-    text = str(input("enter string you want to encyrpt: ")) 
-    s = int(input("enter shift value: "))
-    print("the text: " + text)
-    print("the shift: " + str(s))
-    print("cipher text: " + caeser_encrypt(text, s))
+    if choice == "d":
+        text = input("Enter the string you want to decrypt: ")
+        s = int(input("Enter shift value: "))
+        print("The text:", text)
+        print("The shift:", s)
+        print("Decrypted text:", caeser_decrypt(text, s))
+    elif choice == "e":
+        text = input("Enter the string you want to encrypt: ")
+        s = int(input("Enter shift value: "))
+        print("The text:", text)
+        print("The shift:", s)
+        print("Encrypted text:", caeser_encrypt(text, s))
+    else:
+        print("Invalid choice. Please enter E or D.")
