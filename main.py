@@ -1,4 +1,4 @@
-from caeser import caesar_encrypt, caesar_decrypt
+from caeser import caeser_encrypt, caeser_decrypt
 from exaes import aes_encrypt, aes_decrypt
 
 def main():
@@ -15,22 +15,30 @@ def main():
         if choice == '1':
             text = input("Enter text to encrypt: ")
             shift = int(input("Enter shift value: "))
-            print("Encrypted:", caesar_encrypt(text, shift))
+            print("Encrypted:", caeser_encrypt(text, shift))
 
         elif choice == '2':
             text = input("Enter text to decrypt: ")
             shift = int(input("Enter shift value: "))
-            print("Decrypted:", caesar_decrypt(text, shift))
+            print("Decrypted:", caeser_decrypt(text, shift))
 
         elif choice == '3':
             text = input("Enter text to encrypt: ")
-            password = input("Enter password: ")
-            print("Encrypted (Base64):", aes_encrypt(text, password))
+            nonce, ciphertext, tag = aes_encrypt(text)
+            print("Encrypted:")
+            print(f"Nonce: {nonce.hex()}")
+            print(f"Ciphertext: {ciphertext.hex()}")
+            print(f"Tag: {tag.hex()}")
 
         elif choice == '4':
-            enc = input("Enter Base64 encrypted text: ")
-            password = input("Enter password: ")
-            print("Decrypted:", aes_decrypt(enc, password))
+            nonce = bytes.fromhex(input("Enter nonce (hex): "))
+            ciphertext = bytes.fromhex(input("Enter ciphertext (hex): "))
+            tag = bytes.fromhex(input("Enter tag (hex): "))
+            decrypted = aes_decrypt(nonce, ciphertext, tag)
+            if decrypted:
+                print("Decrypted:", decrypted)
+            else:
+                print("Decryption failed: message is corrupt or wrong key.")
 
         elif choice == '5':
             print("Exiting...")
@@ -39,4 +47,5 @@ def main():
         else:
             print("Invalid option. Please choose 1-5.")
 
-main()
+if __name__ == "__main__":
+    main()
