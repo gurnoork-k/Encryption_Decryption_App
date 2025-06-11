@@ -8,5 +8,5 @@ FEATURES
 STEPS
 1. Clone the Repository
 
-  git clone https://github.com/yourusername/encryption_app.git
+  git clone https://github.com/gurnoork-k/Encryption_Decryption_App
   cd encryption_app
